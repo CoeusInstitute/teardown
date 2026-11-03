@@ -181,7 +181,9 @@ const silent = music ? out.replace(/\.mp4$/, '-silent.mp4') : out;
 const ff = spawn(
   FFMPEG,
   ['-loglevel', 'error', '-y', '-f', 'image2pipe', '-framerate', String(fps), '-i', '-',
-    '-c:v', 'libx264', '-preset', 'slow', '-crf', String(opt('crf', 16)), '-pix_fmt', 'yuv420p', '-movflags', '+faststart', silent],
+    '-c:v', 'libx264', '-preset', 'slow', '-crf', String(opt('crf', 16)),
+    // JPEG frames are full range; without out_range=tv ffmpeg writes yuvj420p (color_range=pc), not the yuv420p feeds expect
+    '-vf', 'scale=out_range=tv', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', silent],
   {stdio: ['pipe', 'inherit', 'inherit']},
 );
 const t0 = Date.now();
