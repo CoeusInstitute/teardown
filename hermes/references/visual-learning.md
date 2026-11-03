@@ -2,7 +2,7 @@
 
 The author's public gallery of everything built with this kit and its SVG sibling (https://visual-learning.app, observed 2026-11-03). Use it to study layout, console vocabulary and interaction before building. Patterns only: the live pages are compiled bundles without a licence; the MIT source is the 3 machines in `sims/`.
 
-Study a page: `node "$SKILL_DIR/reference.mjs" <slug> [...]` writes a 1600 x 900 console screenshot and the page's visible text (panel titles, buttons, readouts, keyboard hints) to `teardown-out/reference/`. Read the PNG with `vision_analyze`. Every page also has a share card at `https://visual-learning.app/<slug>-og.png` (1200 x 630) and a gallery card at `https://visual-learning.app/cards/<slug>.webp`.
+Study a page: open its files in the local mirror `$TD/hermes/site/` (`<slug>.jpg` screenshot of the 1600 x 900 console, `<slug>.json` visible text with panel titles, buttons, readouts and keyboard hints, `<slug>.html` as served, `<slug>-og.png` share card, `<slug>-card.webp` gallery card; `index.json` lists all 47). Read the screenshot with `vision_analyze`. Refresh with `node "$TD/hermes/scripts/reference.mjs" --all --out "$TD/hermes/site"`. Live URLs: `https://visual-learning.app/<slug>`, cards at `https://visual-learning.app/<slug>-og.png` (1200 x 630) and `https://visual-learning.app/cards/<slug>.webp`.
 
 ## Simulators (3D, this skill's format)
 
