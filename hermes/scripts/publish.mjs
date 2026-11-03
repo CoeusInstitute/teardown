@@ -2,7 +2,7 @@
 // Turn built live pages into a deployable folder: share-card meta with absolute URLs, a 1200x630 card per page
 // rendered from its film at a chosen second, an index page, vercel.json and the licence. Deploy the folder after.
 //
-//   node hermes/scripts/publish.mjs hermes/publish/examples.json      (build the pages and films first)
+//   node hermes/scripts/publish.mjs hermes/publish/examples.json [outDir]   (build the pages and films first)
 //   spec: {"site": "https://<project>.vercel.app", "out": "teardown-out/site", "title": "...", "intro": "...",
 //          "pages": [{"name": "v8-live", "film": "v8-film", "og": 12.5, "slug": "v8-engine",
 //                     "title": "...", "description": "..."}]}
@@ -22,7 +22,7 @@ if (!specFile) {
 const spec = JSON.parse(fs.readFileSync(specFile, 'utf8'));
 const site = spec.site.replace(/\/$/, '');
 if (!/^https:\/\//.test(site)) throw new Error('site must be an absolute https URL: crawlers ignore relative card URLs');
-const out = path.resolve(spec.out ?? path.join(OUT, 'site'));
+const out = path.resolve(process.argv[3] ?? spec.out ?? path.join(OUT, 'site'));
 fs.mkdirSync(out, {recursive: true});
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

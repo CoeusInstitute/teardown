@@ -1,0 +1,33 @@
+{
+  "site": "https://coeus-teardown.vercel.app",
+  "out": "teardown-out/site",
+  "title": "Teardown: machines you can take apart",
+  "intro": "Three working machines built from code in real units. Every gauge reads the same model that moves the parts. Drag to orbit, press a part to open it, or let the tour drive.",
+  "credits": "Machines by Elvar (<a href=\"https://github.com/elvarofficial/teardown\">elvarofficial/teardown</a>), built on <a href=\"https://github.com/whaleyxbt/claude-motion\">whaleyxbt/claude-motion</a> and three.js.",
+  "pages": [
+    {
+      "name": "v8-live",
+      "film": "v8-film",
+      "og": 14,
+      "slug": "v8-engine",
+      "title": "V8 engine simulator",
+      "description": "A cross-plane V8 you can take apart: isolate a cylinder, cut it open, track the firing order and watch its pressure loop close every 720° of crank."
+    },
+    {
+      "name": "cessna-live",
+      "film": "cessna-film",
+      "og": 24,
+      "slug": "cessna-337-landing-gear",
+      "title": "Cessna 337 landing gear simulator",
+      "description": "One actuator, a 201 mm rack and a 32-tooth pinion swing both main legs through exactly 180°. Fly a takeoff and watch the gear fold away."
+    },
+    {
+      "name": "strandbeest-live",
+      "film": "strandbeest-film",
+      "og": 1,
+      "slug": "strandbeest",
+      "title": "Strandbeest simulator",
+      "description": "Theo Jansen's wind walker: 20 legs on one crankshaft, every joint solved from his 11 link lengths. Change the wind, isolate a leg and trace every foot."
+    }
+  ]
+}
