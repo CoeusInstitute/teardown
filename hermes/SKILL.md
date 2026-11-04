@@ -29,6 +29,8 @@ Two layers. This file is the Hermes layer: paths, the brief, the console, the re
 - A mechanism with moving parts and real numbers: engines, gear trains, linkages, landing gear, pumps, escapements, robots, or an invented machine with a defined model.
 - A 60 fps video of a machine running, with a synced score, for a feed.
 
+- A hover-driven 3D asset that another page embeds (a website section themed by the host's tokens, no film): see **Variant: an embeddable hover asset** below.
+
 Don't use for: isometric SVG figures of software or data systems (`anatomy`), architecture or flow diagrams (`architecture-diagram`, `diagram-design`), generic landing pages or decks (`claude-design`), generative art (`p5js`).
 
 ## First run
@@ -94,6 +96,16 @@ You cannot watch the video; you can look at frames. Follow the kit manual's revi
 - Publishing is a public, external action: deploy only when the user asks.
 - `hermes/scripts/publish.mjs <spec.json>` turns built live pages into a deploy folder: title and share-card meta with absolute URLs, a 1200 x 630 card per page rendered from its film at a chosen second, an index page, `vercel.json` (clean URLs) and the licence. It refuses a page over 1 MB or a relative site URL. `hermes/publish/examples.json` is the spec for the 3 shipped machines, live at https://coeus-teardown.vercel.app (Vercel project `coeus-teardown`, team `coeusinstitutes-projects`).
 - Deploy: `cd <out> && vercel link --yes --project <project> --scope <team>` once, then `vercel deploy --prod --yes`. Afterwards fetch every page, card and the index from the public URL and confirm 200s and the `og:image` meta before reporting it live.
+- **Delete the `.env.local` that `vercel link` writes into the deploy folder.** Why: it holds a live `VERCEL_OIDC_TOKEN`, and the folder sits in OneDrive-synced `Hermes_Output`, which the weekly backup zips. Fix: `rm <out>/.env.local` right after linking; a static deploy never needs it (the CLI did not upload it, `/.env.local` returned 404).
+
+## Variant: an embeddable hover asset
+
+The kit builds a full page plus a film. A section of someone else's site needs a module instead, and the kit's rules still hold: one pure model drives every motion and every number, the part doing the work opens up, one accent, and the review loop runs on real renders. Reference build: `Hermes_Output\generated\teardown\coeus-pipeline` (coeus.institute landing asset, 2026-11-04). Copy its shape:
+
+- `src/model.js` (pure, two clocks: a stream clock for continuous motion and counters, a tour clock for what is open) plus `model.check.mjs` asserting counters step exactly when the motion crosses the point that defines them.
+- `src/<name>.js` exporting `mount(element, options) -> { destroy, refreshTheme }`: renderer with `alpha`, DOM label layer projected from 3D anchors, hover via invisible proxy boxes, auto tour that pauses on pointer entry and resumes 1.5 s after leave, IntersectionObserver gating, `prefers-reduced-motion` freezing on the final state, colours read live from the host's CSS tokens through a 1x1 canvas (`fillStyle = token; getImageData`, handles oklch) with a MutationObserver on `<html>`.
+- A React wrapper that lazy-`import()`s the module, a `.d.ts`, an offline demo that inlines the host's real token file and fonts, and a README for the placing agent.
+- `tools/review.mjs` (frozen stills per tour beat and per theme, real-mouse hover runs, reduced motion, destroy check) and `tools/lum.py` (content bbox and luminance percentiles), so composition and exposure are measured, not guessed.
 
 ## Updating upstream
 
@@ -113,6 +125,11 @@ The merge cannot conflict while Hermes only adds files under `hermes/`. Read the
 - **A loudness warning on a clip shorter than the score is expected.** `wave.mjs` measures what it is given; check the full-length mux.
 - **`vision_analyze` can 403 while chat still works.** It shares the OpenRouter key's spend cap. Wait for the reset; never skip the review and call it done.
 - **The published simulators carry fiction panels** (operator names, "neural node activity") on invented machines. A real machine gets no invented telemetry: every number comes from the model, and typical figures are labelled as typical.
+- **At a near-orthographic lens (fov 24) a card turned about its vertical axis still reads as a flat icon.** Why: there is no convergence, and a 12 mm edge projects to under a pixel. Fix: 30 mm thickness, about 30 degrees of turn plus a small tip, and `castShadow` so it sits on what it came out of.
+- **Fit the camera to the points that carry content, not to a bounding box.** Why: empty box corners cost about 10 percent of the frame. Fix: binary-search the distance on the projected extent of real points (plinth corners, the top of each exploded column plus its label width), then `camera.setViewOffset` to centre the result.
+- **One light rig cannot serve a host's dark and light themes.** Why: the same intensities left dark albedos murky (median luminance 61 on a 29 background) and clipped light mode (median 255). Fix: set light intensities per mode inside the palette function and re-measure with `lum.py`.
+- **Clamp `dt` at zero when the first frame is called with `performance.now()`.** Why: the next rAF timestamp can be earlier, so `dt` goes negative and any index built from accumulated time goes to -1. Fix: `Math.max(0, ...)` and a positive modulo.
+- **Do not act on a whole-frame `vision_analyze` critique alone.** Why: at full-frame scale it misreads small parts and can report lines or labels as missing that a crop shows are there. Fix: re-check every claimed defect on a `region` crop, and measure coverage and exposure with pixels before changing lighting or layout.
 
 ## Verification
 
