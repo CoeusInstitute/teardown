@@ -21,7 +21,7 @@ Two layers. This file is the Hermes layer: paths, the brief, the console, the re
 
 - `TD="${USERPROFILE:-$HOME}/.local/share/teardown"`: a clone of `CoeusInstitute/teardown`, the fork of `elvarofficial/teardown` (MIT). In the kit manual, `SKILL_DIR` means `$TD`.
 - Upstream files are never edited. Everything Hermes adds lives in `$TD/hermes/`, and that folder is this skill (`skills/creative/teardown` is a junction to it). So merging the author's updates cannot conflict.
-- Build in a working folder outside `$TD`; outputs land in `./teardown-out` (or `$TEARDOWN_OUT`). Deliverables go to `${HERMES_OUTPUT_DIR}/generated/teardown/`.
+- Build in a working folder outside `$TD`; outputs land in `./teardown-out` (or `$TEARDOWN_OUT`). Deliverables go to `$HERMES_OUTPUT_DIR/generated/teardown/` (default `Documents/Hermes_Output`; the 3 example films, live pages, sheets and the deploy folder `site/` already sit there).
 
 ## When to Use
 
@@ -64,7 +64,7 @@ Lay it out at 1600 x 900 around the machine, which fills 60-70% of its view:
 
 ## Reference shelf
 
-`references/visual-learning.md` catalogues the author's gallery (7 simulators, 40 SVG step-explainer figures) and its conventions. A local mirror of every page sits in `$TD/hermes/site/`: per slug a 1600 x 900 screenshot (`.jpg`), the visible text (`.json`), the HTML as served, the share card and the gallery card, with `index.json` listing them. Read the screenshot with `vision_analyze` and the JSON for the panel inventory. Refresh or extend it:
+`references/visual-learning.md` catalogues the author's gallery (7 simulators, 40 SVG step-explainer figures) and its conventions. A local mirror of every page sits in `$TD/hermes/site/`: per slug a 1600 x 900 screenshot (`.jpg`), the visible text (`.json`), the HTML as served, the share card and the gallery card, with `index.json` listing them (47 pages, 40 MB, mirrored 2026-11-03). Read the screenshot with `vision_analyze` and the JSON for the panel inventory. The simulator HTML runs offline from `file://` (models are inlined; checked on the sandworm and jellyfish), so you can drive a reference without the network. Refresh or extend it:
 
 ```
 node "$TD/hermes/scripts/reference.mjs" --all --out "$TD/hermes/site"     # every page, about 10 minutes
